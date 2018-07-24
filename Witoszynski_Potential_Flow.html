@@ -1,0 +1,420 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Descrizione</title><meta name="generator" content="MATLAB 9.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-07-24"><meta name="DC.source" content="Witoszynski_Potential_Flow.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Descrizione</h1><!--introduction--><pre>Il codice applica la teoria dei flussi potenziali per definire
+il flusso e le azioni dinamiche su un profilo alare definito dall'utente
+attraverso la teoria di Witoszynski. I parametri del campo sono definiti
+dall'utente tramite input (ad eccezione di V_infinito, da definire
+preliminarmente). Analogamente, il profilo in esame &egrave; definito
+dall'utente mediante trasformazione conforme definita da Muller, che
+permette di ottenere profili di Joukowski. Per ottenere risultati
+migliori si consiglia di annullare l'angolo di incidenza.</pre><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Definizione preliminare costanti</a></li><li><a href="#2">Trasformazione di Joukowski</a></li><li><a href="#3">Trasformazione del campo con Joukowski</a></li><li><a href="#4">Definizione del campo e plot curve di livello per funzione di corrente</a></li><li><a href="#5">Calcolo Azioni Dinamiche</a></li><li><a href="#6">Calcolo azioni dinamiche con formule analitiche su PROFILI RETTILINEI</a></li><li><a href="#7">Calcolo di Lift e Drag tramite Blasius</a></li><li><a href="#9">Calcolo dei coefficienti</a></li><li><a href="#12">Calcolo dei coefficienti</a></li><li><a href="#14">Diritti</a></li></ul></div><h2 id="1">Definizione preliminare costanti</h2><pre class="codeinput">clearvars
+Vinf = 7;
+alfa_deg = input(<span class="string">'Angolo di incidenza: '</span>);
+alfa = alfa_deg*pi/180;
+beta_deg = input(<span class="string">'Angolo primo asse: '</span>);
+beta = beta_deg*pi/180;
+gamma_deg = input(<span class="string">'Angolo secondo asse: '</span>);
+gamma = gamma_deg*pi/180;
+r0 = input(<span class="string">'Raggio circonferenza primitiva: '</span>);
+mi = r0^2*(2*pi*Vinf);
+p = input(<span class="string">'Parametro p di Muller: '</span>);
+Z_Muller = r0*exp(i*beta)-p*exp(i*gamma);   <span class="comment">% Parametro z0 di Muller</span>
+angle = linspace (0,2*pi,200);
+rv = linspace (1, 8, 200);
+tetav = linspace(0,2*pi,200);
+[r,teta] = meshgrid(rv,tetav);              <span class="comment">% Costruzione mesh</span>
+xv = linspace(-2,2,200);
+yv = xv;
+[x,y] = meshgrid(xv,yv);
+z = x + 1i*y;                               <span class="comment">% Piano complesso</span>
+gap = 0.09;                     <span class="comment">% se la soluzione mostra curve indesiderate</span>
+                                <span class="comment">% provare ad agire su questo parametro</span>
+xM = 0;
+yM = 0;                         <span class="comment">% Coordinate centro della circonferenza</span>
+M = xM + 1i*yM;                 <span class="comment">% Localizzazione centro della circonferenza</span>
+rM = sqrt(xM^2 + yM^2);
+tetaM = atan2(yM,xM);
+
+<span class="keyword">for</span> rn = 1:length(r)
+    <span class="keyword">for</span> tetan = 1:length(teta)
+        <span class="keyword">if</span> r(rn,tetan) &lt;= r0+ gap
+            r(rn,tetan) = NaN;      <span class="comment">% Eliminazione punti interni al cerchio</span>
+            teta(rn,tetan) = NaN;
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="keyword">for</span> xn = 1:length(x)
+    <span class="keyword">for</span> yn = 1:length(y)
+        <span class="keyword">if</span> abs(z(xn,yn)-M) &lt;=  r0 - gap
+            z(xn,yn) = NaN;
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre><pre class="codeoutput error">Error using input
+Cannot call INPUT from EVALC.
+
+Error in Witoszynski_Potential_Flow (line 16)
+alfa_deg = input('Angolo di incidenza: ');
+</pre><h2 id="2">Trasformazione di Joukowski</h2><pre class="codeinput">xc = r0*cos(angle)+xM;
+yc = r0*sin(angle)+yM;
+zc = xc + 1i.*yc;
+Z_prof = zc + (((p.*exp(i*gamma)).^2)./(zc+Z_Muller));
+Xprofilo = real(Z_prof);
+Yprofilo = imag(Z_prof);
+</pre><h2 id="3">Trasformazione del campo con Joukowski</h2><pre class="codeinput">figure
+axis <span class="string">equal</span>
+axis ([-5 5 -5 5])
+hold <span class="string">on</span>
+xv = linspace(-2,2,200);
+yv = xv;
+[x,y] = meshgrid(xv,yv);
+z = x + 1i*y;
+Z = z + (((p.*exp(i*gamma)).^2)./(z + Z_Muller));   <span class="comment">%Trasformazione secondo</span>
+                                                    <span class="comment">%formula di Muller</span>
+<span class="keyword">for</span> xn = 1:length(x)
+    <span class="keyword">for</span> yn = 1:length(y)
+        <span class="keyword">if</span> abs(z(xn,yn)-M) &lt;=  r0 - gap
+            z(xn,yn) = NaN;
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre><h2 id="4">Definizione del campo e plot curve di livello per funzione di corrente</h2><pre class="codeinput">W = - Vinf*exp(-1i*alfa).*(z-M) - (mi./(2*pi.*(z-M)))*exp(1i*alfa)- 4*1i*Vinf*r0*sin(beta).*((z-M).^(1/2) - ((r0^(1/2))*exp(1i*beta/2)))./((z-M).^(1/2) + ((r0^(1/2))*exp(1i*beta/2))); <span class="comment">%L'inserimento di M permette di spostare il cilindo in un punto qualsiasi del piano di Gauss</span>
+psi = imag (W);
+contour(real(Z),imag(Z),psi,[2:2:10]);
+xv = linspace(-8,8,200);
+yv = xv;
+[x,y] = meshgrid(xv,yv);
+z = x + 1i*y;
+Z = z + (((p.*exp(i*gamma)).^2)./(z + Z_Muller));
+<span class="keyword">for</span> xn = 1:length(x)
+    <span class="keyword">for</span> yn = 1:length(y)
+        <span class="keyword">if</span> abs(z(xn,yn)-M) &lt;=  r0 - gap
+            z(xn,yn) = NaN;
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+W = - Vinf*exp(-1i*alfa).*(z-M) - (mi./(2*pi.*(z-M)))*exp(1i*alfa)- 4*1i*Vinf*r0*sin(beta).*((z-M).^(1/2) - ((r0^(1/2))*exp(1i*beta/2)))./((z-M).^(1/2) + ((r0^(1/2))*exp(1i*beta/2))); <span class="comment">%L'inserimento di M permette di spostare il cilindo in un punto qualsiasi del piano di Gauss</span>
+psi = imag (W);
+contour(real(Z),imag(Z),psi,[0 0]);
+P = (r.^2 + rM^2 - (2.*r.*rM.*cos(teta-tetaM))).^0.5;
+phi = atan2((r.*sin(teta-beta)-rM.*sin(tetaM-beta)),(r.*cos(teta-beta)-rM.*cos(tetaM-beta)))./2;
+psiwito = - 4*Vinf*r0*sin(beta).*((P-r0)./(P+r0+(2.*r0^0.5.*P.^(1/2).*cos(phi)))).*cos(alfa);
+psi0 =  - Vinf.*((r.*sin(teta-alfa) -rM*sin(tetaM-alfa))-((r0^2.*(r.*sin(teta-alfa) -rM*sin(tetaM-alfa)))./(r.^2 +rM^2-(2.*r.*rM.*cos(teta-tetaM))))) + psiwito;
+x = r.*cos(teta);
+y = r.*sin(teta);
+z = x + 1i*y;
+Z = z + (((p.*exp(i*gamma)).^2)./(z + Z_Muller));
+contour (real(Z),imag(Z),psi0,[-100:2:100]);
+contour (real(Z),imag(Z),psi0,[0 0]);
+fill (Xprofilo,Yprofilo,<span class="string">'k'</span>);
+</pre><h2 id="5">Calcolo Azioni Dinamiche</h2><pre class="codeinput">clear <span class="string">z</span>;
+z0 = Z_Muller;
+rho = 1.225;                            <span class="comment">%Densit&agrave; del fluido</span>
+dr = 0.001;                             <span class="comment">%modificare il parametro per</span>
+                                        <span class="comment">%variare l'accuratezza del</span>
+                                        <span class="comment">%risultato</span>
+disp(<span class="string">'Immettere scelta del caso'</span>)
+disp(<span class="string">'---'</span>)
+disp(<span class="string">'scegliere tra "W" (confronto con Witoszynski) o "M" (confronto con Muller)'</span>)
+disp(<span class="string">'---'</span>)
+choise = input(<span class="string">'Immettere scelta: '</span>);
+</pre><h2 id="6">Calcolo azioni dinamiche con formule analitiche su PROFILI RETTILINEI</h2><pre class="codeinput">P_Wito = 8.*rho.*Vinf.^2.*r0.*sin(beta).*cos(beta).^2;
+R_Wito = 8.*rho.*Vinf.^2.*r0.*sin(beta).^2.*cos(beta);
+cd_Muller = 0.48.*sin(beta).^2;
+cl_Wito = 4.*sin(beta).*cos(beta).^2;
+cl_Muller = 4.*sin(beta);
+cd_Wito = 4.*sin(beta).^2.*cos(beta);
+R_Muller = cd_Muller.*0.5.*rho.*Vinf^2.*4.*r0;
+</pre><h2 id="7">Calcolo di Lift e Drag tramite Blasius</h2><p>si definisce una curva g lungo la quale effettuare l'integrazione si osserva che dr deve essere diverso da 0 affinch&egrave; il calcolo sia effettuabile</p><pre class="codeinput"><span class="keyword">switch</span> choise
+
+    <span class="keyword">case</span> <span class="string">'W'</span>
+</pre><pre class="codeinput">        <span class="comment">%%Definizione integrale</span>
+        g = @(teta) (r0+dr)*cos(teta) + (r0+dr)*1i*sin(teta);
+        gprime = @(teta) -(r0+dr)*sin(teta) + (r0+dr)*1i*cos(teta);
+        Int_Blasius = @(z) (((exp(-1i*alfa)-exp(1i*alfa).*(r0.^2)./(z.^2))+ exp(1i*alfa).*(4.*i.*r0.^(3/2).*sin(beta).*exp(i.*beta.*0.5)./((z.^0.5).*((z.^0.5)+(r0.^0.5).*exp(i.*beta.*0.5)).^2))).^2) .*(((z+z0).^2)./((z+z0).^2-(p.^2).*exp(i.*2.*gamma)));
+        R_attrito = rho.*Vinf.^2.*r0.*(9/4).*pi.*i.*exp(-i.*beta).*sin(beta).^2;
+        Forces = -0.5.*rho.*(Vinf.^2).*integral(@(t) Int_Blasius(g(t)).*gprime(t),0,2*pi)-R_attrito;
+        Lift = real(Forces);
+        Drag = -imag (Forces);
+</pre><h2 id="9">Calcolo dei coefficienti</h2><pre class="codeinput">        cl = Lift./(4.*r0.*0.5.*rho.*Vinf.^2)
+        cd = Drag./(4.*r0.*0.5.*rho.*Vinf.^2)
+</pre><pre class="codeinput">    <span class="keyword">case</span> <span class="string">'M'</span>
+</pre><pre class="codeinput">        g = @(teta) (r0+dr)*cos(teta) + (r0+dr)*1i*sin(teta);
+        gprime = @(teta) -(r0+dr)*sin(teta) + (r0+dr)*1i*cos(teta);
+        Int_Blasius = @(z) (((exp(-1i*alfa)-exp(1i*alfa).*(r0.^2)./(z.^2))+ exp(1i*alfa).*(4.*i.*r0.^(3/2).*sin(beta).*exp(i.*beta.*0.5)./((z.^0.5).*((z.^0.5)+(r0.^0.5).*exp(i.*beta.*0.5)).^2))).^2) .*(((z+z0).^2)./((z+z0).^2-(p.^2).*exp(i.*2.*gamma)));
+        R_attrito = rho.*Vinf.^2.*r0.*(9/4).*pi.*i.*exp(-i.*beta).*sin(beta).^2;
+        Forces = -0.5.*rho.*(Vinf.^2).*integral(@(t) Int_Blasius(g(t)).*gprime(t),0,2*pi);
+        Lift = real(Forces);
+        Drag = -imag (Forces);
+</pre><h2 id="12">Calcolo dei coefficienti</h2><pre class="codeinput">        cl = Lift./(4.*r0.*0.5.*rho.*Vinf.^2)
+        cd = Drag./(4.*r0.*0.5.*rho.*Vinf.^2)
+</pre><pre class="codeinput"><span class="keyword">end</span>
+</pre><h2 id="14">Diritti</h2><pre>Questo codice &egrave; stato prodotto da Giuseppe Galati, matricola 216291
+nell'ambito dell' elaborato finale per il corso di Laurea Triennale
+in Ingegneria Meccanica presso il Politecnico di Torino,
+da titolo "Applicazione della teoria dei flussi
+potenziali ai profili alari". Come tale, l'elaborato e tutti i codici
+prodotti sono da considerarsi opere tutelate da diritto d'autore,
+incluso quest'ultimo, che pur non essendo riportato nell'elaborato
+finale in appendice, rappresenta un codice riassuntivo del lavoro svolto</pre><p>Copyright 2018 Giuseppe Galati</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2017b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Descrizione
+%  Il codice applica la teoria dei flussi potenziali per definire 
+%  il flusso e le azioni dinamiche su un profilo alare definito dall'utente
+%  attraverso la teoria di Witoszynski. I parametri del campo sono definiti
+%  dall'utente tramite input (ad eccezione di V_infinito, da definire
+%  preliminarmente). Analogamente, il profilo in esame è definito
+%  dall'utente mediante trasformazione conforme definita da Muller, che
+%  permette di ottenere profili di Joukowski. Per ottenere risultati
+%  migliori si consiglia di annullare l'angolo di incidenza.
+
+
+
+%% Definizione preliminare costanti 
+clearvars
+Vinf = 7;                       
+alfa_deg = input('Angolo di incidenza: ');
+alfa = alfa_deg*pi/180;
+beta_deg = input('Angolo primo asse: ');                  
+beta = beta_deg*pi/180;
+gamma_deg = input('Angolo secondo asse: ');                  
+gamma = gamma_deg*pi/180;
+r0 = input('Raggio circonferenza primitiva: ');                       
+mi = r0^2*(2*pi*Vinf);
+p = input('Parametro p di Muller: ');
+Z_Muller = r0*exp(i*beta)-p*exp(i*gamma);   % Parametro z0 di Muller                             
+angle = linspace (0,2*pi,200);  
+rv = linspace (1, 8, 200);
+tetav = linspace(0,2*pi,200);
+[r,teta] = meshgrid(rv,tetav);              % Costruzione mesh
+xv = linspace(-2,2,200); 
+yv = xv;
+[x,y] = meshgrid(xv,yv);                
+z = x + 1i*y;                               % Piano complesso
+gap = 0.09;                     % se la soluzione mostra curve indesiderate
+                                % provare ad agire su questo parametro
+xM = 0;                         
+yM = 0;                         % Coordinate centro della circonferenza
+M = xM + 1i*yM;                 % Localizzazione centro della circonferenza
+rM = sqrt(xM^2 + yM^2);
+tetaM = atan2(yM,xM);
+
+for rn = 1:length(r)
+    for tetan = 1:length(teta)
+        if r(rn,tetan) <= r0+ gap
+            r(rn,tetan) = NaN;      % Eliminazione punti interni al cerchio
+            teta(rn,tetan) = NaN; 
+        end             
+    end
+end
+
+for xn = 1:length(x)
+    for yn = 1:length(y)
+        if abs(z(xn,yn)-M) <=  r0 - gap 
+            z(xn,yn) = NaN;  
+        end       
+    end
+end
+
+%% Trasformazione di Joukowski
+xc = r0*cos(angle)+xM;
+yc = r0*sin(angle)+yM;
+zc = xc + 1i.*yc; 
+Z_prof = zc + (((p.*exp(i*gamma)).^2)./(zc+Z_Muller));
+Xprofilo = real(Z_prof); 
+Yprofilo = imag(Z_prof); 
+
+%% Trasformazione del campo con Joukowski
+
+figure
+axis equal 
+axis ([-5 5 -5 5])
+hold on
+xv = linspace(-2,2,200); 
+yv = xv;
+[x,y] = meshgrid(xv,yv);
+z = x + 1i*y;
+Z = z + (((p.*exp(i*gamma)).^2)./(z + Z_Muller));   %Trasformazione secondo
+                                                    %formula di Muller
+for xn = 1:length(x)
+    for yn = 1:length(y)
+        if abs(z(xn,yn)-M) <=  r0 - gap 
+            z(xn,yn) = NaN;  
+        end       
+    end
+end
+
+%% Definizione del campo e plot curve di livello per funzione di corrente
+W = - Vinf*exp(-1i*alfa).*(z-M) - (mi./(2*pi.*(z-M)))*exp(1i*alfa)- 4*1i*Vinf*r0*sin(beta).*((z-M).^(1/2) - ((r0^(1/2))*exp(1i*beta/2)))./((z-M).^(1/2) + ((r0^(1/2))*exp(1i*beta/2))); %L'inserimento di M permette di spostare il cilindo in un punto qualsiasi del piano di Gauss
+psi = imag (W);
+contour(real(Z),imag(Z),psi,[2:2:10]);              
+xv = linspace(-8,8,200); 
+yv = xv;
+[x,y] = meshgrid(xv,yv);
+z = x + 1i*y;
+Z = z + (((p.*exp(i*gamma)).^2)./(z + Z_Muller));
+for xn = 1:length(x)
+    for yn = 1:length(y)
+        if abs(z(xn,yn)-M) <=  r0 - gap 
+            z(xn,yn) = NaN;  
+        end       
+    end
+end
+W = - Vinf*exp(-1i*alfa).*(z-M) - (mi./(2*pi.*(z-M)))*exp(1i*alfa)- 4*1i*Vinf*r0*sin(beta).*((z-M).^(1/2) - ((r0^(1/2))*exp(1i*beta/2)))./((z-M).^(1/2) + ((r0^(1/2))*exp(1i*beta/2))); %L'inserimento di M permette di spostare il cilindo in un punto qualsiasi del piano di Gauss
+psi = imag (W);
+contour(real(Z),imag(Z),psi,[0 0]);
+P = (r.^2 + rM^2 - (2.*r.*rM.*cos(teta-tetaM))).^0.5;
+phi = atan2((r.*sin(teta-beta)-rM.*sin(tetaM-beta)),(r.*cos(teta-beta)-rM.*cos(tetaM-beta)))./2;
+psiwito = - 4*Vinf*r0*sin(beta).*((P-r0)./(P+r0+(2.*r0^0.5.*P.^(1/2).*cos(phi)))).*cos(alfa);         
+psi0 =  - Vinf.*((r.*sin(teta-alfa) -rM*sin(tetaM-alfa))-((r0^2.*(r.*sin(teta-alfa) -rM*sin(tetaM-alfa)))./(r.^2 +rM^2-(2.*r.*rM.*cos(teta-tetaM))))) + psiwito;
+x = r.*cos(teta);
+y = r.*sin(teta);
+z = x + 1i*y;
+Z = z + (((p.*exp(i*gamma)).^2)./(z + Z_Muller));
+contour (real(Z),imag(Z),psi0,[-100:2:100]);
+contour (real(Z),imag(Z),psi0,[0 0]);
+fill (Xprofilo,Yprofilo,'k');
+
+%% Calcolo Azioni Dinamiche
+clear z;
+z0 = Z_Muller;                          
+rho = 1.225;                            %Densità del fluido    
+dr = 0.001;                             %modificare il parametro per 
+                                        %variare l'accuratezza del
+                                        %risultato 
+disp('Immettere scelta del caso')
+disp('REPLACE_WITH_DASH_DASH-')
+disp('scegliere tra "W" (confronto con Witoszynski) o "M" (confronto con Muller)')
+disp('REPLACE_WITH_DASH_DASH-')
+choise = input('Immettere scelta: ');
+
+%% Calcolo azioni dinamiche con formule analitiche su PROFILI RETTILINEI
+P_Wito = 8.*rho.*Vinf.^2.*r0.*sin(beta).*cos(beta).^2;
+R_Wito = 8.*rho.*Vinf.^2.*r0.*sin(beta).^2.*cos(beta);
+cd_Muller = 0.48.*sin(beta).^2;
+cl_Wito = 4.*sin(beta).*cos(beta).^2;
+cl_Muller = 4.*sin(beta);
+cd_Wito = 4.*sin(beta).^2.*cos(beta);
+R_Muller = cd_Muller.*0.5.*rho.*Vinf^2.*4.*r0;
+
+        %% Calcolo di Lift e Drag tramite Blasius
+        % si definisce una curva g lungo la quale effettuare l'integrazione
+        % si osserva che dr deve essere diverso da 0 affinchè il calcolo
+        % sia effettuabile
+        
+switch choise
+    
+    case 'W'
+
+        %%Definizione integrale
+        g = @(teta) (r0+dr)*cos(teta) + (r0+dr)*1i*sin(teta);
+        gprime = @(teta) -(r0+dr)*sin(teta) + (r0+dr)*1i*cos(teta);
+        Int_Blasius = @(z) (((exp(-1i*alfa)-exp(1i*alfa).*(r0.^2)./(z.^2))+ exp(1i*alfa).*(4.*i.*r0.^(3/2).*sin(beta).*exp(i.*beta.*0.5)./((z.^0.5).*((z.^0.5)+(r0.^0.5).*exp(i.*beta.*0.5)).^2))).^2) .*(((z+z0).^2)./((z+z0).^2-(p.^2).*exp(i.*2.*gamma)));
+        R_attrito = rho.*Vinf.^2.*r0.*(9/4).*pi.*i.*exp(-i.*beta).*sin(beta).^2;
+        Forces = -0.5.*rho.*(Vinf.^2).*integral(@(t) Int_Blasius(g(t)).*gprime(t),0,2*pi)-R_attrito;
+        Lift = real(Forces); 
+        Drag = -imag (Forces); 
+        %% Calcolo dei coefficienti
+
+        cl = Lift./(4.*r0.*0.5.*rho.*Vinf.^2)
+        cd = Drag./(4.*r0.*0.5.*rho.*Vinf.^2)
+
+    case 'M'
+        
+        g = @(teta) (r0+dr)*cos(teta) + (r0+dr)*1i*sin(teta);
+        gprime = @(teta) -(r0+dr)*sin(teta) + (r0+dr)*1i*cos(teta);
+        Int_Blasius = @(z) (((exp(-1i*alfa)-exp(1i*alfa).*(r0.^2)./(z.^2))+ exp(1i*alfa).*(4.*i.*r0.^(3/2).*sin(beta).*exp(i.*beta.*0.5)./((z.^0.5).*((z.^0.5)+(r0.^0.5).*exp(i.*beta.*0.5)).^2))).^2) .*(((z+z0).^2)./((z+z0).^2-(p.^2).*exp(i.*2.*gamma)));
+        R_attrito = rho.*Vinf.^2.*r0.*(9/4).*pi.*i.*exp(-i.*beta).*sin(beta).^2;
+        Forces = -0.5.*rho.*(Vinf.^2).*integral(@(t) Int_Blasius(g(t)).*gprime(t),0,2*pi);
+        Lift = real(Forces); 
+        Drag = -imag (Forces); 
+            
+        %% Calcolo dei coefficienti
+
+        cl = Lift./(4.*r0.*0.5.*rho.*Vinf.^2)
+        cd = Drag./(4.*r0.*0.5.*rho.*Vinf.^2)
+    
+end
+
+%% Diritti
+%  Questo codice è stato prodotto da Giuseppe Galati, matricola 216291
+%  nell'ambito dell' elaborato finale per il corso di Laurea Triennale
+%  in Ingegneria Meccanica presso il Politecnico di Torino,
+%  da titolo "Applicazione della teoria dei flussi
+%  potenziali ai profili alari". Come tale, l'elaborato e tutti i codici
+%  prodotti sono da considerarsi opere tutelate da diritto d'autore,
+%  incluso quest'ultimo, che pur non essendo riportato nell'elaborato
+%  finale in appendice, rappresenta un codice riassuntivo del lavoro svolto
+%
+% Copyright 2018 Giuseppe Galati
+
+
+##### SOURCE END #####
+--></body></html>
